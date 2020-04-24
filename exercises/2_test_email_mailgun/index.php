@@ -4,13 +4,13 @@
     
     function send_mailgun($email){
     	$config = array();
-    	$config['api_key'] = "3c810cd432414abf720c814ed946e7a9-915161b7-4f781302"; //API Key
-    	$config['api_url'] = "https://api.mailgun.net/v2/sandbox055a9dec63954d5391e27b99c28e326f.mailgun.org/messages"; //API Base URL
+    	$config['api_key'] = "key-3d2115cee9bb21a620a535d1d4208b65"; //API Key
+    	$config['api_url'] = "https://api.mailgun.net/v2/sandboxf9b30175aeaf4c57b9a7b8c53181c776.mailgun.org/messages"; //API Base URL
 
     	$message = array();
-    	$message['from'] = "admin@neteco.com";
+    	$message['from'] = "admin@neteco.es";
     	$message['to'] = $email;
-    	$message['h:Reply-To'] = "ruralshoponti@gmail.com";
+    	$message['h:Reply-To'] = "admin@neteco.es";
     	$message['subject'] = "Hello, this is a test";
     	$message['html'] = 'Hello ' . $email . ',</br></br> This is a test';
      
@@ -29,5 +29,5 @@
     	return $result;
     }
     
-    $json = send_mailgun('yomogan@gmail.com');
+    $json = send_mailgun('tono.iestacio@gmail.com');
     print_r($json);
