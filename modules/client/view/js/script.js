@@ -26,84 +26,83 @@ $( document ).ready(function() {
   
         $_GET[decode(arguments[1])] = decode(arguments[2]);
     });
-  
+
     //Categories
     $.ajax({
-      type: 'GET',
-      url: "module/client/controller/client.php",
-      dataType: 'json',
-      data: { op: 'menu'},
-      success: function(result){
+      type: "POST",
+      url: amigable("?module=client&function=categories"),
+      dataType: "JSON",
+      }).done(function(result){
         var element = "";
         for (let i = 0; i < result.length; i++) {
           if(i == 0) {
-            $('div.list_subcategories h3').html(result[0][1]);
+            $('div.list_subcategories h3').html(result[0]["name"]);
           }
   
           element = element + 
-          '<div id_button="'+result[i][0]+'" class="top_category">'+
-            '<p>'+result[i][1]+'</p>'+
+          '<div id_button="'+result[i]["id"]+'" class="top_category">'+
+            '<p>'+result[i]["name"]+'</p>'+
             '<i class="fas fa-angle-right"></i>'+
           '</div>';
         }
         $('.list_categories').html(element);
         
         manu_search = "true";
-  
+
         menu_fixed();
         clicks_admin();
         top_subcategorias($(".top_subcategory").first().attr('id_button'));
-    }});
+    });
   
     //Search
-    $("#search_bar").keyup(function() {
-      var string = $("#search_bar").val();
-      localStorage.setItem('search',string);
-      $.ajax({
-        type: 'GET',
-        url: "module/client/controller/client.php",
-        dataType: 'json',
-        data: { 
-          op: 'autocomplete',
-          keyup: string,
-          categoria: localStorage.getItem('category'),
-          subcategoria: localStorage.getItem('subcategory')
-        },
-        success: function(result){
-          try{
-            console.log(result);
-            search_productos(result,string);
-          } catch(e) {
+    // $("#search_bar").keyup(function() {
+    //   var string = $("#search_bar").val();
+    //   localStorage.setItem('search',string);
+    //   $.ajax({
+    //     type: "POST",
+    //     url: amigable("?module=client&function=categories"),
+    //     dataType: "JSON",
+    //     data: { 
+    //       op: 'autocomplete',
+    //       keyup: string,
+    //       categoria: localStorage.getItem('category'),
+    //       subcategoria: localStorage.getItem('subcategory')
+    //     },
+    //     success: function(result){
+    //       try{
+    //         console.log(result);
+    //         search_productos(result,string);
+    //       } catch(e) {
   
-            console.log(result);
-          }
-        }
-      })
-    });
+    //         console.log(result);
+    //       }
+    //     }
+    //   })
+    // });
   });
   
-  function force_search() {
-    var string = $("#search_bar").val();
-      $.ajax({
-        type: 'GET',
-        url: "module/client/controller/client.php",
-        dataType: 'json',
-        data: { 
-          op: 'autocomplete',
-          keyup: string,
-          categoria: localStorage.getItem('category'),
-          subcategoria: localStorage.getItem('subcategory')
-        },
-        success: function(result){  
-          try{
-            console.log(result);
-            search_productos(result,string);
-          } catch(e) {
-            console.log(result);
-          }
-        }
-      })
-  }
+  // function force_search() {
+  //   var string = $("#search_bar").val();
+  //     $.ajax({
+  //       type: 'GET',
+  //       url: "module/client/controller/client.php",
+  //       dataType: 'json',
+  //       data: { 
+  //         op: 'autocomplete',
+  //         keyup: string,
+  //         categoria: localStorage.getItem('category'),
+  //         subcategoria: localStorage.getItem('subcategory')
+  //       },
+  //       success: function(result){  
+  //         try{
+  //           console.log(result);
+  //           search_productos(result,string);
+  //         } catch(e) {
+  //           console.log(result);
+  //         }
+  //       }
+  //     })
+  // }
   
   function menu_fixed() {
     //Css del menu
@@ -129,24 +128,6 @@ $( document ).ready(function() {
       $('.search').css("opacity","1");
     }
   }
-
-  function amigable(url) {
-    var link="";
-    url = url.replace("?", "");
-    url = url.split("&");
-    cont = 0;
-    for (var i=0;i<url.length;i++) {
-    	cont++;
-        var aux = url[i].split("=");
-        if (cont == 2) {
-        	link +=  "/"+aux[1]+"/";	
-        }else{
-        	link +=  "/"+aux[1];
-        }
-        
-    }
-    return "http://localhost/1_Fw_PHP_OO_MVC_jQuery_AngularJS/Framework/9_adoptions_dogs" + link;
-  }
   
   function clicks_admin() {
     $('.button_').on("click",function() {
@@ -155,10 +136,9 @@ $( document ).ready(function() {
       id_button = this.getAttribute('id_button');
       if (id_button) {
         localStorage.setItem("category",id_button);
-        window.location.href = "index.php?page=products";
+        window.location.href = amigable("?module=products");
       } else
-        // window.location.href = "index.php?page="+id;
-        amigable("index.php?page="+id);
+        window.location.href = amigable("?module=" + id);
     });
   
     $('#login').on("click",function() {
@@ -170,12 +150,12 @@ $( document ).ready(function() {
           url: "module/login/controller/login.php?op=logout",
           success: function(result) {
             if (result == "true") {
-              window.location.href = "index.php?page=homepage";
+              window.location.href = amigable("?module=homepage");
             }
           }
         });
       } else if (id != "none")
-        window.location.href = "index.php?page="+id;
+      window.location.href = amigable("?module=" + $id);
     });
   
     $('#login .logout').on("click",function() {
@@ -184,7 +164,7 @@ $( document ).ready(function() {
           url: "module/login/controller/login.php?op=logout",
           success: function(result) {
             if (result == "true") {
-              window.location.href = "index.php?page=homepage";
+              window.location.href = amigable("?module=homepage");
             }
           }
         });
@@ -281,37 +261,35 @@ $( document ).ready(function() {
         localStorage.removeItem("subcategory");
         localStorage.setItem("category",localStorage.getItem("top_category"));
         localStorage.removeItem("top_category");
-        window.location.href = "index.php?page=products";
+        window.location.href = amigable("?module=products");
       }
     );
   }
   
   function top_subcategorias(categoria = localStorage.getItem('top_category')) {
     $.ajax({
-        url: "module/client/controller/client.php",
-        dataType: 'json',
-        data: {
-          op: 'list_subcategories',
-          category: categoria
-        },
-        success: function(result){
-            var element = "";
-            for (let i = 0; i < result.length; i++) {
-              element = element + 
-              '<div id_button="'+result[i][0]+'" class="top_subcategory">'+
-                '<div class="img"></div>'+
-                '<p>'+result[i][1]+'</p>'+
-              '</div>';
-            }
-            $('.add_subcategories').html(element);
-  
-            $(".top_subcategory").on("click",function() {
-              id_button = this.getAttribute('id_button');
-              localStorage.setItem("category",localStorage.getItem("top_category"));
-              localStorage.setItem("subcategory",id_button);
-              localStorage.removeItem("top_category");
-              window.location.href = "index.php?page=products";
-            });
+        type: "POST",
+        url: amigable("?module=client&function=subcategories"),
+        dataType: 'JSON',
+        data: { "category" : categoria },
+        success: function(result) {
+          var element = "";
+          for (let i = 0; i < result.length; i++) {
+            element = element + 
+            '<div id_button="'+result[i]["id"]+'" class="top_subcategory">'+
+              '<div class="img"></div>'+
+              '<p>'+result[i]["name"]+'</p>'+
+            '</div>';
+          }
+          $('.add_subcategories').html(element);
+
+          $(".top_subcategory").on("click",function() {
+            id_button = this.getAttribute('id_button');
+            localStorage.setItem("category",localStorage.getItem("top_category"));
+            localStorage.setItem("subcategory",id_button);
+            localStorage.removeItem("top_category");
+            window.location.href = amigable("?module=products");
+          });
         }
     }); 
   }

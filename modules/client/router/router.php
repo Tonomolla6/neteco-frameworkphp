@@ -3,26 +3,24 @@
     session_start();
 
     function handlerRouter() {
-        // Comprobamos el modulo por post y por get.
-        if (!empty($_POST['module']))
-            $URI_module = $_POST['module'];
+       // Comprobamos header del cliente por post.
+        if ($_GET['module'] == "client")
+            handlerFront($_GET['module'],$_GET['function']);
         else {
+            // Comprobamos el modulo por get.
             if (!empty($_GET['module']))
                 $URI_module = $_GET['module'];
             else
                 $URI_module = 'home';
-        }
 
-        // Comprobamos la funcion por post y por get.
-        if (!empty($_POST['function']))
-            $URI_function = $_POST['function'];
-        else {
+            // Comprobamos la funcion por get.
             if (!empty($_GET['function']))
                 $URI_function = $_GET['function'];
             else
                 $URI_function = false;
+            
+            handlerModule($URI_module, $URI_function);
         }
-        handlerModule($URI_module, $URI_function);
     }
 
     function handlerModule($URI_module, $URI_function) {
@@ -43,8 +41,7 @@
                     $obj = new $controllerClass;
                 } else
                     errorView();
-
-                handlerfunction($NAME_module, $obj, $URI_function);
+                handlerFunction($NAME_module, $obj, $URI_function);
                 break;
             }
         }
@@ -52,12 +49,12 @@
             errorView();
     }
 
-    function handlerfunction($NAME_module, $obj, $URI_function) {
+    function handlerFunction($NAME_module, $obj, $URI_function) {
 
         // Comprobamos que tiene funcion o no.
         if (!empty($URI_function)) {
             // Importamos las funciones del modulo.
-            $functions = simplexml_load_file(MODULES_PATH . $uri_module . "/resources/function.xml");
+            $functions = simplexml_load_file(MODULES_PATH . $NAME_module . "/resources/function.xml");
             $exist = false;
 
             foreach ($functions->function as $function) {
@@ -76,4 +73,26 @@
             call_user_func(array($obj, "view"));
     }
 
+    function handlerFront($NAME_module,$NAME_function) {
+        // Importamos las funciones.
+        $functions = simplexml_load_file(RESOURCES.'functions.xml');
+        $exist = false;
+
+        foreach ($functions->function as $function) {
+            if (($NAME_function === (String) $function->name)) {
+                $exist = true;
+                $event = (String) $function->name;
+                break;
+            }
+        }
+
+        if (!$exist)
+            errorView();
+        else {
+            require_once CONTROLLER . "front_controller_" . $NAME_module . ".class.php";
+            $controllerClass = "front_controller_" . $NAME_module;
+            $obj = new $controllerClass;
+            call_user_func(array($obj,$event));
+        }
+    }
     handlerRouter();

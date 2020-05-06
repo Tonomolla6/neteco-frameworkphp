@@ -65,9 +65,10 @@
     }
 
 function send_mailgun($from, $email, $subject, $html){
+    $api = parse_ini_file(MODEL_PATH."mail.ini");
     $config = array();
-    $config['api_key'] = "key-0d32063a19d690be82da3bfeb69a9e3b"; //API Key
-    $config['api_url'] = "https://api.mailgun.net/v2/sandbox1811da627e3e450ebabe2e836ed20a3a.mailgun.org/messages"; //API Base URL
+    $config['api_key'] = $api['key'];
+    $config['api_url'] = $api['url'];
 
    $message = array();
    $message['from'] = $from;

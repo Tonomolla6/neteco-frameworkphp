@@ -11,6 +11,7 @@
 
     <!-- javascript -->
     <script src="<?php echo JS_PATH ?>script.js"></script>
+    <script src="<?php echo JS_PATH ?>utils.js"></script>
 
     <!-- css -->
     <link href="<?php echo CSS_PATH ?>style.css" rel="stylesheet" type="text/css"/>

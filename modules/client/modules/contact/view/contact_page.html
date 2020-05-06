@@ -1,40 +1,69 @@
-<script type="text/javascript" src="<?php echo JS_VIEW_CONTACT ?>contact_list.js"></script>
-<h2>Contact</h2>
-<table>
-    <tr>
-       	<td>Nombre y Apellidos: </td>
-       		<td id="error_name"><input type="text" name="cname" id="cname" required="required" placeholder="Nombre" value=""/>
-      	</td>
-    </tr>
-    <tr>
-       	<td>Correo electronico: </td>
-       		<td id="error_emial"><input type="text" name="cemail" id="cemail" required="required" placeholder="Correo electronico" value=""/>
-       	</td>
-    </tr>
-    <tr>
-      	<td>Asunto: </td>
-      	<td>
-	      	<select name="matter" id="matter">
-	         	<option selected>Seleccione un asunto</option>
-	         	<option>Problemas con la pagina</option>
-	         	<option>Mejoras para la pagina</option>
-                <option>Problemas con el registro</option>
-                <option>Problemas al insertar un perro</option>
-                <option>Problemas al intentar adoptar</option>
-                <option>Contacto para una promoción</option>
-                <option>Otros</option>
-	        </select>
-       	</td>
-     </tr>
- 	<tr>
-   		<td>Mensaje: </td>
-       	<td id="error_dinfo">
-       		<textarea rows="4" cols="50" name="message" id="message"></textarea>
-       	</td>
-    </tr>
-</table>
-<br/>
-<button type="button" name="send_contact" id="send_contact">Enviar</button>
-
-<img src="<?php echo IMG_PATH; ?>ajax-loader.gif" alt="ajax loader icon" class="ajaxLoader" /><br/><br/>
-<div id="rltsendmessage" style="display: none;"></div>
+<div id="content">
+	<div id="map">
+	</div>
+	
+	<div class="mapa_text">
+		<p>Donde nos encontramos?</p>
+		<h2>C/ Pius XII, 44, 4, 15</h2>
+		<h2>46870 Valencia</h2>
+	</div>
+	
+	<div class="page">
+		<p class="route"><strong>Home</strong> / Contact</p>
+		<h1>Contacta con nosotros</h1>
+		<div class="left">
+			<form>
+				<div>
+					<p>Nombre:</p>
+					<input type="text" name="nombre"/>
+				</div>
+	
+				<div>
+					<p>Apellidos:</p> 
+					<input type="text" name="apellidos"/>
+				</div>
+	
+				<div>
+					<p>Posicion:</p> 
+					<select type="text" name="apellidos">
+						<option value="particular">Particular</option>
+						<option value="empresa">Empresa</option>
+					</select>
+				</div>
+	
+				<div>
+					<p>Sexo:</p> 
+					<div class="radio_linea">
+						<div class="radio">
+							<input type="radio" name="sexo" value="h">
+							<p>Hombre</p>
+						</div>
+						<div class="radio">
+							<input type="radio" name="sexo" value="m">
+							<p>Mujer</p>
+						</div>
+						<div class="radio">
+							<input type="radio" name="sexo" value="o">
+							<p>Otro</p>
+						</div>
+					</div>
+				</div>
+				<div>
+					<p>Asunto:</p>
+					<input type="text" name="asunto"/>
+				</div>
+	
+				<div>
+					<p>Mensaje:</p>
+					<textarea type="text" name="mensaje" rows="15">
+					</textarea>
+				</div>
+	
+				<div class="buttons">
+					<div id="send" class="button send">Enviar</div>
+					<div class="button reset">Borrar</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

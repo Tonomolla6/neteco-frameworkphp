@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <functions>
     <function>
-        <name>view</name>
+        <name>categories</name>
         <uri></uri>
     </function>
     <function>
-        <name>send_mail</name>
-        <uri>send_mail</uri>
+        <name>subcategories</name>
+        <uri></uri>
     </function>
 </functions>

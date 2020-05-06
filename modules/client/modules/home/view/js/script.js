@@ -2,28 +2,27 @@ $( document ).ready(function() {
 	// Slider img
 	var_img = 1;
 	$.ajax({
-	  type: 'GET',
-	  url: "module/client/module/homepage/controller/homepage.php",
-	  dataType: 'json',
-	  data: { op: 'slider_img_count'},
-	  success: function(result){
-		max_img = result[0][0];
+	  type: 'POST',
+	  url: amigable("?module=home&function=slider_img_count"),
+	  dataType: 'json'
+	}).done(function(result) {
+		max_img = result[0]["total"];
 		change_img(var_img);
-	}});
+	});
+
   
 	// Slider subcategories
 	var_img = 1;
 	$.ajax({
-	  type: 'GET',
-	  url: "module/client/module/homepage/controller/homepage.php",
+	  type: 'POST',
+	  url: amigable("?module=home&function=slider_subcategoria"),
 	  dataType: 'json',
-	  data: { op: 'slider_subcategoria'},
 	  success: function(result){
 		for (let i = 0; i < result.length; i++) {
 		  $('.subcategorias').html($('.subcategorias').html() +
-			'<div id_sub="'+result[i][0]+'" id_cat="'+result[i][2]+'" class="div subcategoria">'+
+			'<div id_sub="'+result[i]["id"]+'" id_cat="'+result[i]["category"]+'" class="div subcategoria">'+
 			  '<div style="background-image: url(/nueva_final/module/client/module/homepage/view/img/subcategorias.jpg)" class="img"></div>'+
-			  '<p>'+result[i][1]+'</p>'+
+			  '<p>'+result[i]["name"]+'</p>'+
 			'</div>');
 		}
 	  }
@@ -32,17 +31,15 @@ $( document ).ready(function() {
 	// Slider productos
 	var_img = 1;
 	$.ajax({
-	  type: 'GET',
-	  url: "module/client/module/homepage/controller/homepage.php",
+	  type: 'POST',
+	  url: amigable("?module=home&function=slider_products"),
 	  dataType: 'json',
-	  data: { op: 'slider_products'},
 	  success: function(result){
-		console.log(result);
 		for (let i = 0; i < result.length; i++) {
 		  $('.products').html($('.products').html()+
-			'<div id_cat="'+result[i][8]+'" id_sub="'+result[i][9]+'" id_button="'+result[i][0]+'" class="div product">'+
-			  '<div style="background-image: url('+result[i]['img']+')" class="img"></div>'+
-			  '<p>'+result[i][1]+'</p>'+
+			'<div id_cat="'+result[i]["category"]+'" id_sub="'+result[i]["subcategory"]+'" id_button="'+result[i]["id"]+'" class="div product">'+
+			  '<div style="background-image: url('+result[i]["img"]+')" class="img"></div>'+
+			  '<p>'+result[i]["name"]+'</p>'+
 			'</div>');
 		}
 		loop_img();
@@ -53,13 +50,16 @@ $( document ).ready(function() {
   
   function change_img(id_img) {
 	$.ajax({
-	  url: "module/client/module/homepage/controller/homepage.php",
+	  type: "POST",
+	  url: amigable("?module=home&function=slider_img_change"),
 	  dataType: 'json',
-	  data: {op: 'slider_img_change', id: id_img},
+	  data: {id: id_img},
 	  success: function(result){
-		$('#homepage_slider').css("background-image", "url("+result[0][3]+")"); 
-		$('#homepage_slider div.text h2').html(result[0][1]); 
-		$('#homepage_slider div.text p').html(result[0][2]);
+		  if (result.length >= 1){
+			$('#homepage_slider').ss("background-image", "url("+result[0]["url"]+")"); 
+			$('#homepage_slider div.text h2').html(result[0]["title"]); 
+			$('#homepage_slider div.text p').html(result[0]["description"]);
+		  }
 	}}); 
   }
   
@@ -118,10 +118,9 @@ $( document ).ready(function() {
   
   function update_clicks(table,id) {
 	$.ajax({
-	  url: "module/client/module/homepage/controller/homepage.php",
+	  type: "POST",
+	  url: amigable("?module=home&function=update_clicks"),
 	  dataType: 'json',
-	  data: {op: 'update_clicks', 
-	  id: id,
-	  table: table}
+	  data: { id: id, table: table }
 	});
   }

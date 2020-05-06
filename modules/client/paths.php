@@ -29,7 +29,10 @@
     define('PRODUCTION', true);
     
     //MODEL
-    define('MODEL_PATH', SITE_ROOT . 'model/');
+    define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . ROOT . 'model/');
+
+    //MODEL
+    define('CONTROLLER', SITE_ROOT . 'controller/');
     
     //MODULES
     define('MODULES_PATH', SITE_ROOT . 'modules/');
@@ -48,15 +51,24 @@
 
     //MODULES
     $modules = simplexml_load_file(RESOURCES.'modules.xml');
-    $define_name = array('UTILS_','MODEL_PATH_','DAO_','BLL_','MODEL_','JS_VIEW_');
-    $define_path = array('utils/','model/','DAO/','BLL/','model/','view/js/');
+    $define_name = array('MODEL_PATH_','DAO_','BLL_','MODEL_','JS_VIEW_');
+    $define_path = array('model/','DAO/','BLL/','model/','view/js/');
+    $define_path = array('model/','model/DAO/','model/BLL/','model/model/','view/js/');
 
     foreach ($modules->module as $module) {
-        $module = $module->uri;
-        for ($d=0; $d < count($define_name); $d++) { 
-            define($define_name[$d].strtoupper($module), SITE_ROOT . 'modules/'.strtolower($module).$define_path[$d]);
-        }
+        $module = $module->name;
+        for ($d=0; $d < count($define_name); $d++)
+            define($define_name[$d].strtoupper($module), SITE_ROOT . 'modules/'.strtolower($module)."/".$define_path[$d]);
+            // echo $define_name[$d].strtoupper($module).",". SITE_ROOT . 'modules/'.strtolower($module)."/".$define_path[$d]."\n";
     }
+
+    //MODULE_FONT
+    define('MODEL_PATH_FRONT', SITE_ROOT . 'model/');
+    define('DAO_FRONT', SITE_ROOT . 'model/DAO/');
+    define('BLL_FRONT', SITE_ROOT . 'model/BLL/');
+    define('MODEL_FRONT', SITE_ROOT . 'model/model/');
+    define('JS_VIEW_FRONT', SITE_PATH . 'view/js/');
+
 
     //FRIENDLY
     define('URL_AMIGABLES', TRUE);

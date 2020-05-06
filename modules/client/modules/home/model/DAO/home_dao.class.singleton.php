@@ -13,39 +13,32 @@ class home_dao {
         return self::$_instance;
     }
 
-    public function select_data_list($db,$arrArgument) {
-        $sql = "SELECT name,chip,breed,sex,stature,picture,date_birth FROM dogs WHERE breed LIKE '%$arrArgument%' ORDER BY chip";
+    public function slider_img_count($db) {
+        $sql = "SELECT count(*) as total FROM background_img";
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
 
-    public function select_data_details($db,$arrArgument) {
-        $sql = "SELECT name,chip,breed,sex,stature,picture,date_birth,tlp,country,province,city,cinfo,dinfo FROM dogs WHERE chip = '$arrArgument'";
+    public function slider_img_change($db,$data) {
+        $sql = "SELECT * FROM background_img WHERE id = ".$data[0];
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
 
-    public function select_best_breed($db,$arrArgument) {
-        $sql = "SELECT breed FROM dogs GROUP BY breed ORDER BY count(*) DESC LIMIT $arrArgument,2";
+    public function slider_subcategoria($db) {
+        $sql = "SELECT * FROM subcategories ORDER BY clicks DESC LIMIT 5";
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
 
-    public function select_load_name($db) {
-        $sql = "SELECT DISTINCT name FROM dogs WHERE state = 0";
+    public function slider_products($db) {
+        $sql = "SELECT * FROM products ORDER BY clicks DESC LIMIT 5";
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
 
-    public function select_auto_name($db,$arrArgument) {
-        $sql = "SELECT DISTINCT name,chip,breed,sex,stature,picture,date_birth FROM dogs WHERE name LIKE '%$arrArgument%' AND state = 0";
-        $stmt = $db->ejecutar($sql);
-        return $db->listar($stmt);
-    }
-
-    public function update_active_user($db,$arrArgument) {
-        $sql = "UPDATE users SET activate = 1 WHERE token = '$arrArgument'";
+    public function update_clicks($db,$data) {
+        $sql = "UPDATE " . $data[1] . "SET clicks = (clicks + 1) WHERE id = " .$data[1];
         return $db->ejecutar($sql);
     }
-
 }

@@ -1,5 +1,5 @@
 <?php
-	class home_dao{
+	class front_client_bll{
 	    private $dao;
 	    static $_instance;
 
