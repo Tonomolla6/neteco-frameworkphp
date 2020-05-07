@@ -10,39 +10,22 @@
 		}
 		
 		function send_mail(){
-			echo "hola";
-		// 	$data_mail = array();
-		// 	$data_mail = json_decode($_POST['fin_data'],true);
-		// 	$arrArgument = array(
-		// 		'type' => 'contact',
-		// 		'token' => '',
-		// 		'inputName' => $data_mail['cname'],
-		// 		'inputEmail' => $data_mail['cemail'],
-		// 		'inputSubject' => $data_mail['matter'],
-		// 		'inputMessage' => $data_mail['message']
-		// 	);
-			
-		// 	//set_error_handler('ErrorHandler');
-		// 	try{
-	    //         echo "<div class='alert alert-success'>".enviar_email($arrArgument)." </div>";
-		// 	} catch (Exception $e) {
-		// 		echo "<div class='alert alert-error'>Server error. Try later...</div>";
-		// 	}
-		// 	//restore_error_handler();
+			$data_mail = $_POST['data'];
+			$data = array(
+				'nombre' => $data_mail['nombre'],
+				'apellidos' => $data_mail['apellidos'],
+				'correo' => $data_mail['correo'],
+				'cliente' => $data_mail['cliente'],
+				'sexo' => $data_mail['sexo'],
+				'asunto' => $data_mail['asunto'],
+				'mensaje' => $data_mail['mensaje']
+			);
 
-		// 	$arrArgument = array(
-		// 		'type' => 'admin',
-		// 		'token' => '',
-		// 		'inputName' => $data_mail['cname'],
-		// 		'inputEmail' => $data_mail['cemail'],
-		// 		'inputSubject' => $data_mail['matter'],
-		// 		'inputMessage' => $data_mail['message']
-		// 	);
-		// 	try{
-	    //         enviar_email($arrArgument);
-		// 	} catch (Exception $e) {
-		// 		echo "<div class='alert alert-error'>Server error. Try later...</div>";
-		// 	}
-		// }
+			$total = json_decode(enviar_email($data,"contact"),true);
+			if (!empty($total['id'])) {
+				echo "<div class='alert alert-success'><i class='fas fa-times'></i> El correo se ha enviado correctamente, en unos dias recibirá una respuesta</div>";
+				header("Refresh:0");
+			} else
+				echo "<div class='alert alert-error'><i class='fas fa-times'></i> Server error. Intentalo mas tarde...</div>";
+		}
 	}
-}

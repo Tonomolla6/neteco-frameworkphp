@@ -33,7 +33,7 @@
             if ($URI_module == $module->uri) {
                 $exist = true;
                 $NAME_module = $module->name;
-
+                
                 $path = MODULES_PATH . $NAME_module . "/controller/controller_" . $NAME_module . ".class.php";
                 if (file_exists($path)) {
                     require_once $path;

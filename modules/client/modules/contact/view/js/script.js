@@ -62,13 +62,25 @@ function initMap() {
 
 function send_mail() {
     $("#send").click(function() {
-        $.ajax({
-            type: "GET",
-            url: amigable("?module=contact&function=send_mail")
+        var array_data = {
+            "nombre":$('input[name="nombre"]').val(),
+            "apellidos":$('input[name="apellidos"]').val(),
+            "correo":$('input[name="correo"]').val(),
+            "cliente":$('select[name="cliente"]').val(),
+            "sexo":$('input[name="sexo"]').val(),
+            "asunto":$('input[name="asunto"]').val(),
+            "mensaje":$('textarea[name="mensaje"]').val()
+        };
+        $.ajax({ 
+            type: "POST",
+            url: amigable("?module=contact&function=send_mail"),
+            data: {"data": array_data},
             }).done(function(result) {
-                console.log(result);
-            }).fail(function(result) {
-                console.log(result);
+                setTimeout(function() {
+                    $('.alert').remove();
+                }, 2000);
+
+                $("body").html($("body").html()+result);
             });
       });
 }
