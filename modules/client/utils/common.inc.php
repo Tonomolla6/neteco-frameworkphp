@@ -9,13 +9,13 @@
 
             if (!method_exists($modelClass, $function)){
                 throw new Exception();
+            } else {
+                $obj = $modelClass::getInstance();
+                if (empty($data))
+                    return call_user_func(array($obj, $function),$db);
+                else
+                    return call_user_func(array($obj, $function),$db,$data);
             }
-
-            $obj = $modelClass::getInstance();
-            if (empty($data))
-                return call_user_func(array($obj, $function),$db);
-            else
-                return call_user_func(array($obj, $function),$db,$data);
         } else {
             throw new Exception();
         }

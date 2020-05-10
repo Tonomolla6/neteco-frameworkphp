@@ -40,25 +40,38 @@
         }
 
         public function ejecutar($sql) {
-            try {
-                $this->stmt = $this->link->query($sql);
-                return $this->stmt;
-            } catch (Exception $e) {
-                echo "Error en la ejecución: $e";
-                die;
-            }
+            $this->stmt = $this->link->query($sql);
+            return $this->stmt;
         }
         
         public function listar($stmt) {
-            try {
-                $this->array = array();
-                while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
-                    array_push($this->array, $row);
-                }
-                return $this->array;
-            } catch (Exception $e) {
-                echo "Error en la información: $e";
-                die;
+            $this->array = array();
+            while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
+                array_push($this->array, $row);
             }
+            return $this->array;
         }
+
+        // public function ejecutar($sql) {
+        //     try {
+        //         $this->stmt = $this->link->query($sql);
+        //         return $this->stmt;
+        //     } catch (Exception $e) {
+        //         echo "Error en la ejecución: $e";
+        //         die;
+        //     }
+        // }
+        
+        // public function listar($stmt) {
+        //     try {
+        //         $this->array = array();
+        //         while ($row = $stmt->fetch_array(MYSQLI_ASSOC)) {
+        //             array_push($this->array, $row);
+        //         }
+        //         return $this->array;
+        //     } catch (Exception $e) {
+        //         echo "Error en la información: $e";
+        //         die;
+        //     }
+        // }
     }

@@ -9,7 +9,7 @@ function amigable(url) {
         aux = url[i].split("=");
         if (cont == 2) {
         	link +=  "/"+aux[1];	
-        }else{
+        } else{
         	link =  "/"+aux[1];
         }
     }

@@ -52,6 +52,8 @@ $( document ).ready(function() {
         menu_fixed();
         clicks_admin();
         top_subcategorias($(".top_subcategory").first().attr('id_button'));
+    }).fail(function(result){
+      console.log(result);
     });
   
     //Search

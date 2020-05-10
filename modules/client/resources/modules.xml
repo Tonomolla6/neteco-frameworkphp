@@ -8,4 +8,8 @@
         <name>contact</name>
         <uri>contact</uri>
     </module>
+    <module>
+        <name>products</name>
+        <uri>products</uri>
+    </module>
 </modules>
