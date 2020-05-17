@@ -111,8 +111,8 @@
 						"correo" => $_POST["email"],
 						"nombre" => $_POST["name"]
 					);
-					$total = json_decode(enviar_email($data,"signin"),true);
-                    echo json_encode($total);
+					json_decode(enviar_email($data,"signin"),true);
+                    echo "true";
 				} else
 					echo "Este email ya esta registrado";
 				
@@ -122,7 +122,52 @@
 
 		function check() {
 			loadModel(DAO_LOGIN, "login_dao", "check", $_GET["param"]);
+			loadModel(DAO_LOGIN, "login_dao", "delete_token", $_GET["param"]);
 			$paths = array("head_login.php","login_page.html");
         	loadView('modules/login/view/', $paths);
+		}
+
+		function restart() {
+			if ($_GET["param"]) {
+				$user = loadModel(DAO_LOGIN, "login_dao", "check_token", $_GET["param"]);
+				if ($user) {
+					$_SESSION["token"] = $_GET["param"];
+				 	$paths = array("head_signin.php","restart_page.html");
+        		 	loadView('modules/login/view/', $paths);
+				} else {
+					$paths = array("head_login.php","login_page.html");
+        		 	loadView('modules/login/view/', $paths);
+				}
+			} else {
+				if ($_POST) {
+					$result = loadModel(DAO_LOGIN, "login_dao", "login", strtolower($_POST['email']));
+					$result = $result[0];
+
+					if ($result) {
+						$token = md5(uniqid(rand(),true));
+						$data = array(strtolower($_POST['email']),$token);
+						loadModel(DAO_LOGIN, "login_dao", "update_token", $data);
+
+						$data = array(
+							"nombre" => $result["name"],
+							"token" => $token,
+							"correo" => strtolower($_POST['email'])
+						);
+
+						json_decode(enviar_email($data,"restart"),true);
+						echo "true";
+
+					} else
+						echo "false";
+				}
+			}
+		}
+
+		function change() {
+			$data = array(password_hash($_POST['password'], PASSWORD_DEFAULT),$_SESSION["token"]);
+			loadModel(DAO_LOGIN, "login_dao", "change_password", $data);
+			loadModel(DAO_LOGIN, "login_dao", "delete_token", $_SESSION["token"]);
+			$_SESSION["token"] = "";
+			echo "true";
 		}
 	}

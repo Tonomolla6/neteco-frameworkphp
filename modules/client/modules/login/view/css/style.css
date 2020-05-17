@@ -130,3 +130,13 @@ body {
     margin-bottom: 13px;
     font-size: 14px;
 }
+
+.page .transparencia .box .inputs span.succes {
+    color: #00BCD4;
+    margin-bottom: 13px;
+    font-size: 14px;
+}
+
+#restart {
+    display: none;
+}

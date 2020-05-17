@@ -13,6 +13,12 @@
                 $body = 'Para verificar su cuenta pulsa ' . $ruta . '.';
                 $subject = 'Verifica tu cuenta de Neteco'; 
                 break;
+            case 'restart':
+                $text = 'Restaurar la contraseña, '.$data["nombre"].'.<br>';
+                $ruta = '<a href=' . '"http://localhost/framework-php/login/restart/'. $data["token"] .'">aqui</a>';
+                $body = 'Para restaurar su contraseña pulsa ' . $ruta . '.';
+                $subject = 'Restablece su contraseña de Neteco'; 
+                break;
         }
 
         $html = "<html>";

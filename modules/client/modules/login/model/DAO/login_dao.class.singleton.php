@@ -50,7 +50,28 @@ class login_dao {
     }
 
     public function check($db, $data) {
-        $sql = "UPDATE login set active = 1 where token = '" . $data . "'";
+        $sql = "UPDATE login SET active = 1 WHERE token = '" . $data . "'";
+        return $db->ejecutar($sql);
+    }
+
+    public function update_token($db, $data) {
+        $sql = "UPDATE login SET token = '" . $data[1] . "' WHERE email = '". $data[0] ."'";
+        return $db->ejecutar($sql);
+    }
+
+    public function check_token($db, $data) {
+        $sql = "SELECT * FROM login WHERE token = '".$data."'";
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+
+    public function change_password($db,$data) {
+        $sql = "UPDATE login SET password = '" . $data[0] . "' WHERE token = '". $data[1] ."'";
+        return $db->ejecutar($sql);
+    }
+
+    public function delete_token($db,$data) {
+        $sql = "UPDATE login SET token = '' WHERE token = '". $data ."'";
         return $db->ejecutar($sql);
     }
 }

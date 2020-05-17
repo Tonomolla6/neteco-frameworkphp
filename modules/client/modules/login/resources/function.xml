@@ -32,4 +32,12 @@
         <name>check</name>
         <uri>check</uri>
     </function>
+    <function>
+        <name>restart</name>
+        <uri>restart</uri>
+    </function>
+    <function>
+        <name>change</name>
+        <uri>change</uri>
+    </function>
 </functions>
