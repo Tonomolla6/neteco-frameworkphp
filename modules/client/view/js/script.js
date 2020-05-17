@@ -149,24 +149,24 @@ $( document ).ready(function() {
       if (id == "logout") {
         $.ajax({
           type: 'POST',
-          url: "module/login/controller/login.php?op=logout",
+          url: amigable("?module=login&function=logout"),
           success: function(result) {
             if (result == "true") {
-              window.location.href = amigable("?module=homepage");
+              window.location.href = amigable("?module=home");
             }
           }
         });
       } else if (id != "none")
-      window.location.href = amigable("?module=" + $id);
+        window.location.href = amigable("?module=login");
     });
   
     $('#login .logout').on("click",function() {
         $.ajax({
           type: 'POST',
-          url: "module/login/controller/login.php?op=logout",
+          url: amigable("?module=login&function=logout"),
           success: function(result) {
             if (result == "true") {
-              window.location.href = amigable("?module=homepage");
+              window.location.href = amigable("?module=home");
             }
           }
         });

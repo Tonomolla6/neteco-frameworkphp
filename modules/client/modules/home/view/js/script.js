@@ -100,7 +100,7 @@ $( document ).ready(function() {
 	  localStorage.setItem('subcategory',sub);
 	  localStorage.setItem('category',cat);
 	  update_clicks("subcategories",sub);
-	  window.location.href = "index.php?page=products";
+	  window.location.href = amigable("?module=products");
 	});
   
 	$('.product').on('click', function(){
@@ -111,7 +111,7 @@ $( document ).ready(function() {
 	  localStorage.setItem('category',cat);
 	  localStorage.setItem('product',id);
 	  update_clicks("products",id);
-	  window.location.href = "index.php?page=products";
+	  window.location.href = amigable("?module=products");
 	});
   
   }

@@ -421,9 +421,10 @@ function draw_likes() {
         url: amigable("?module=products&function=list_likes"),
         dataType: 'json',
         success: function(result) {
+            console.log(result);
             for (let index = 0; index < result.length; index++) {
-                $("[id_button="+result[index]["id"]+"]").parent().children('.like').children('i').removeClass("far");
-                $("[id_button="+result[index]["id"]+"]").parent().children('.like').children('i').addClass("fas");
+                $("[id_button="+result[index]["product"]+"]").parent().children('.like').children('i').removeClass("far");
+                $("[id_button="+result[index]["product"]+"]").parent().children('.like').children('i').addClass("fas");
             }
         }
     });

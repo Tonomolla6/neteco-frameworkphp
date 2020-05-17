@@ -15,7 +15,7 @@
         ini_set('error_reporting', E_ERROR | E_WARNING); // error_reporting(E_ALL) ;
     } else {
         ini_set('display_errors', '0');
-        ini_set('error_reporting', '0'); // error_reporting(0); 
+        ini_set('error_reporting', '0'); // error_reporting(0);
     }
     
     require MODULE."router/router.php";

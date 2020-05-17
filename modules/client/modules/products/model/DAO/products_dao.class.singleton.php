@@ -59,12 +59,18 @@ class products_dao {
     }
 
     public function list_likes($db,$data) {
-        $sql = "INSERT INTO favorites (user,product) VALUES (".$data[0].",".$data[1].")";
+        $sql = "SELECT product FROM favorites WHERE user = ".$data;
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+
+    public function add_like($db,$data) {
+        $sql = "INSERT INTO favorites (user,product) VALUES (".$data[1].",".$data[0].")";
         return $db->ejecutar($sql);
     }
 
-    public function add_likes($db,$data) {
-        $sql = "DELETE FROM favorites WHERE user = '".$data[0]."' and product = '".$data[1]."'";
+    public function remove_like($db,$data) {
+        $sql = "DELETE FROM favorites WHERE user = ".$data[1]." and product = ".$data[0];
         return $db->ejecutar($sql);
     }
 

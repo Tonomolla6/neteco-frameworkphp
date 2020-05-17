@@ -41,6 +41,7 @@
                     $obj = new $controllerClass;
                 } else
                     errorView();
+
                 handlerFunction($NAME_module, $obj, $URI_function);
                 break;
             }

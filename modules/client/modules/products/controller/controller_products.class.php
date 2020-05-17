@@ -44,7 +44,7 @@
 		
 		function list_likes() {
 			$json = array();
-			$json = loadModel(DAO_PRODUCTS, "products_dao", "list_likes",$_SESSION["id"]);
+			$json = loadModel(DAO_PRODUCTS, "products_dao", "list_likes", $_SESSION["id"]);
 			echo json_encode($json);
 		}
 
