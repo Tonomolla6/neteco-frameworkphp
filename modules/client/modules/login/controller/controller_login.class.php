@@ -25,20 +25,25 @@
                 $var = $_POST['password'];
 				$result = loadModel(DAO_LOGIN, "login_dao", "login", strtolower($_POST['email']));
 				$result = $result[0];
+
 				if (password_verify($var, $result['password'])) {
-					$_SESSION["id"] = $result['id'];
-					$_SESSION["name"] = $result['name'];
-					$_SESSION["email"] = $result['email'];
-					$_SESSION["password"] = $result['password'];
-					$_SESSION["avatar"] = $result['avatar'];
-					$_SESSION["logged"] = $result['type'];
-					$_SESSION["salary"] = $result['salary'];
-					$_SESSION["time"] = time();
-					if ($_SESSION["cart"] == true) {
-						$_SESSION["cart"] = false;
-						echo false;
-					} else
-                    	echo true;
+					if ($result['active'] == 0)
+						echo "La cuenta no está activada, verifique el correo.";
+					else {
+						$_SESSION["id"] = $result['id'];
+						$_SESSION["name"] = $result['name'];
+						$_SESSION["email"] = $result['email'];
+						$_SESSION["password"] = $result['password'];
+						$_SESSION["avatar"] = $result['avatar'];
+						$_SESSION["logged"] = $result['type'];
+						$_SESSION["salary"] = $result['salary'];
+						$_SESSION["time"] = time();
+						if ($_SESSION["cart"] == true) {
+							$_SESSION["cart"] = false;
+							echo false;
+						} else
+							echo true;
+					}
 				} else
 					echo "La direccion de correo o contraseña no son correctos";
             }
@@ -99,12 +104,25 @@
 						password_hash($_POST['password'], PASSWORD_DEFAULT),
 						"http://i.pravatar.cc/300?u=".$_POST['hash']
 					);
-					loadModel(DAO_LOGIN, "login_dao", "insert_user", $data);
-                    echo "true";
+					$token = loadModel(DAO_LOGIN, "login_dao", "insert_user", $data);
+					$data = $_POST;
+					$data = array(
+						"token" => $token,
+						"correo" => $_POST["email"],
+						"nombre" => $_POST["name"]
+					);
+					$total = json_decode(enviar_email($data,"signin"),true);
+                    echo json_encode($total);
 				} else
 					echo "Este email ya esta registrado";
 				
             } else
 				echo "error";
+		}
+
+		function check() {
+			loadModel(DAO_LOGIN, "login_dao", "check", $_GET["param"]);
+			$paths = array("head_login.php","login_page.html");
+        	loadView('modules/login/view/', $paths);
 		}
 	}

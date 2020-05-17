@@ -7,6 +7,12 @@
                 $body = 'Para visitar nuestra web, pulsa ' . $ruta;
                 $subject = 'Gracias por contactar con Neteco.'; 
                 break;
+            case 'signin':
+                $text = 'Gracias por registrarte en NETECO '.$data["nombre"].'.<br>';
+                $ruta = '<a href=' . '"http://localhost/framework-php/login/check/'. $data["token"] .'">aqui</a>';
+                $body = 'Para verificar su cuenta pulsa ' . $ruta . '.';
+                $subject = 'Verifica tu cuenta de Neteco'; 
+                break;
         }
 
         $html = "<html>";

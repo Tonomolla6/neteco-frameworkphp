@@ -43,7 +43,14 @@ class login_dao {
     }
 
     public function insert_user($db, $data) {
-        $sql = "INSERT INTO login (name, email, password, avatar, salary, type) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."', 1000, 'client')";
+        $token = md5(uniqid(rand(),true));
+        $sql = "INSERT INTO login (name, email, password, avatar, salary, type, active, token) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."', 1000, 'client', 0, '$token')";
+        $db->ejecutar($sql);
+        return $token;
+    }
+
+    public function check($db, $data) {
+        $sql = "UPDATE login set active = 1 where token = '" . $data . "'";
         return $db->ejecutar($sql);
     }
 }
