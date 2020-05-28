@@ -396,6 +396,7 @@ function likes(selected) {
                 type: 'POST',
                 url: amigable("?module=products&function=add_like"),
                 data: {
+                    token: localStorage.getItem("token"),
                     id_product: id
                 }
             });
@@ -406,6 +407,7 @@ function likes(selected) {
                 type: 'POST',
                 url: amigable("?module=products&function=remove_like"),
                 data: {
+                    token: localStorage.getItem("token"),
                     id_product: id
                 }
             });
@@ -420,6 +422,9 @@ function draw_likes() {
         type: 'POST',
         url: amigable("?module=products&function=list_likes"),
         dataType: 'json',
+        data: {
+            token: localStorage.getItem("token")
+        },
         success: function(result) {
             console.log(result);
             for (let index = 0; index < result.length; index++) {

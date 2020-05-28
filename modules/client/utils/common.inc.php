@@ -47,3 +47,31 @@
         require_once VIEW_PATH_INC . "404.php";
         require_once VIEW_PATH_INC . "footer.html";
     }
+ 
+    function encode_token_jwt($email) {
+        // Data
+        $header = '{"typ":"JWT", "alg":"HS256"}';
+        $secret = 'hoyendialostenedoresoncucharas';
+        $payload_array = array(
+            'iat' => time(),
+            'exp' => time() + (5 * 60),
+            'name' => $email
+           );
+
+        $payload = json_encode($payload_array);
+
+        // Program
+        $JWT = new JWT;
+        $token = $JWT->encode($header, $payload, $secret);
+
+        // Token
+        return $token;
+    }
+
+    function decode_token_jwt($token_in) {
+        $secret = 'hoyendialostenedoresoncucharas';
+        $JWT = new JWT;
+        $token = $JWT->decode($token_in, $secret);
+
+        return $token;
+    }

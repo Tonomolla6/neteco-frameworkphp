@@ -44,20 +44,26 @@
 		
 		function list_likes() {
 			$json = array();
-			$json = loadModel(DAO_PRODUCTS, "products_dao", "list_likes", $_SESSION["id"]);
+			$array = decode_token_jwt($_POST["token"]);
+			$email = json_decode($array)->name;
+			$json = loadModel(DAO_PRODUCTS, "products_dao", "list_likes", $email);
 			echo json_encode($json);
 		}
 
 		function add_like() {
 			$json = array();
-			$data = array($_POST["id_product"],$_SESSION["id"]);
+			$array = decode_token_jwt($_POST["token"]);
+			$email = json_decode($array)->name;
+			$data = array($_POST["id_product"],$email);
 			$json = loadModel(DAO_PRODUCTS, "products_dao", "add_like", $data);
 			echo json_encode($json);
 		}
 
 		function remove_like() {
 			$json = array();
-			$data = array($_POST["id_product"],$_SESSION["id"]);
+			$array = decode_token_jwt($_POST["token"]);
+			$email = json_decode($array)->name;
+			$data = array($_POST["id_product"],$email);
 			$json = loadModel(DAO_PRODUCTS, "products_dao", "remove_like", $data);
 			echo json_encode($json);
 		}

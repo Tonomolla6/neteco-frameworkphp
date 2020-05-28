@@ -2,7 +2,6 @@
 	class controller_login {
 	    function __construct() {
 			$_SESSION['module'] = "login";
-			session_start();
 		}
 		
 		function view() {
@@ -28,25 +27,21 @@
 
 				if (password_verify($var, $result['password'])) {
 					if ($result['active'] == 0)
-						echo "La cuenta no está activada, verifique el correo.";
+						$array = array(false,"La cuenta no está activada, verifique el correo.");
 					else {
-						$_SESSION["id"] = $result['id'];
-						$_SESSION["name"] = $result['name'];
-						$_SESSION["email"] = $result['email'];
-						$_SESSION["password"] = $result['password'];
-						$_SESSION["avatar"] = $result['avatar'];
-						$_SESSION["logged"] = $result['type'];
-						$_SESSION["salary"] = $result['salary'];
-						$_SESSION["time"] = time();
-						if ($_SESSION["cart"] == true) {
-							$_SESSION["cart"] = false;
-							echo false;
-						} else
-							echo true;
+						$token = encode_token_jwt($result['email']);
+						$array = array(true,$token);
+						// if ($result["cart"] == true) {
+						// 	echo false;
+						// } else
+						// 	echo true;
 					}
 				} else
-					echo "La direccion de correo o contraseña no son correctos";
-            }
+					$array = array(false,"La direccion de correo o contraseña no son correctos");
+			} else {
+				$array = array(false,"No hay post");
+			}
+			echo json_encode($array);
 		}
 
 		function checking() {
@@ -54,20 +49,17 @@
 				$_SESSION["cart"] = true;
 			}
 
-			if ($_SESSION["logged"] == "admin" || $_SESSION["logged"] == "client") {
-				$result = loadModel(DAO_LOGIN, "login_dao", "login", strtolower($_SESSION['email']));
-				$result = $result[0];
-				if ($result['password'] == $_SESSION["password"]) {
-					$data = array($_SESSION["name"], $_SESSION["avatar"]);
-					echo json_encode($data);
-					exit;
-				} else {
-					session_destroy();
-					session_unset();
-					echo "false";
-				}
+			if ($_POST["token"]) {
+				$json = decode_token_jwt($_POST["token"]);
+				$email = json_decode($json)->name;
+				$result = loadModel(DAO_LOGIN, "login_dao", "login", strtolower($email));
+				$array = array(
+					"name" => $result[0]["name"],
+					"avatar" => $result[0]["avatar"]
+				);
+				echo json_encode($array);
 			} else
-				echo "true";
+				echo true;
 		}
 
 		function logout() {
@@ -144,7 +136,7 @@
 					$result = $result[0];
 
 					if ($result) {
-						$token = md5(uniqid(rand(),true));
+						$token = generate_Token_secure(20);
 						$data = array(strtolower($_POST['email']),$token);
 						loadModel(DAO_LOGIN, "login_dao", "update_token", $data);
 

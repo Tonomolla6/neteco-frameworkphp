@@ -19,6 +19,12 @@ class login_dao {
         return $db->listar($stmt);
     }
 
+    // public function login($db,$data) {
+    //     $sql = "SELECT name,avatar FROM login WHERE email = '".$data."'";
+    //     $stmt = $db->ejecutar($sql);
+    //     return $db->listar($stmt);
+    // }
+
     public function slider_img_change($db,$data) {
         $sql = "SELECT * FROM background_img WHERE id = ".$data[0];
         $stmt = $db->ejecutar($sql);
@@ -43,7 +49,7 @@ class login_dao {
     }
 
     public function insert_user($db, $data) {
-        $token = md5(uniqid(rand(),true));
+        $token = generate_Token_secure(20);
         $sql = "INSERT INTO login (name, email, password, avatar, salary, type, active, token) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."', 1000, 'client', 0, '$token')";
         $db->ejecutar($sql);
         return $token;

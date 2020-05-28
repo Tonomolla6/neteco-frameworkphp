@@ -147,29 +147,15 @@ $( document ).ready(function() {
       id = this.getAttribute('id_stat');
       localStorage.removeItem('cart_list');
       if (id == "logout") {
-        $.ajax({
-          type: 'POST',
-          url: amigable("?module=login&function=logout"),
-          success: function(result) {
-            if (result == "true") {
-              window.location.href = amigable("?module=home");
-            }
-          }
-        });
+        localStorage.removeItem("token");
+        window.location.href = amigable("?module=home");
       } else if (id != "none")
         window.location.href = amigable("?module=login");
     });
   
     $('#login .logout').on("click",function() {
-        $.ajax({
-          type: 'POST',
-          url: amigable("?module=login&function=logout"),
-          success: function(result) {
-            if (result == "true") {
-              window.location.href = amigable("?module=home");
-            }
-          }
-        });
+      localStorage.removeItem("token");
+      window.location.href = amigable("?module=home");
     });
   
     $('#search_button').on("click",function() {

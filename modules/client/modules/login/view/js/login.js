@@ -58,13 +58,18 @@ function validate_login_php(email,password) {
             email: email,
             password: password
         },
+        dataType: 'json',
 		success: function(result) {
-            if (result == true)
+            if (result[0] == true) {
+                localStorage.setItem("token",result[1]);    
                 window.location.href = amigable("?module=home");
-            else if (result == false)
-                window.location.href = amigable("?module=cart");
-            else
-                $('#error_email').html(result);
+            // } else if (result[0] == false)
+            //     window.location.href = amigable("?module=cart");
+            } else
+                $('#error_email').html(result[1]);
+        },
+        error: function(result) {
+            console.log(result);
         }
     });
 }

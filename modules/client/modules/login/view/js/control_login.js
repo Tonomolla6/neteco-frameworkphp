@@ -11,7 +11,9 @@ function login(stat) {
                     type: 'POST',
                     url: amigable("?module=login&function=checking"),
                     dataType: 'json',
-                    data: {stat: stat}
+                    data: {
+                        stat: stat,
+                        token: localStorage.getItem("token")}
                  })
                  .done(function(data) {
                     total = data;
@@ -37,13 +39,13 @@ function login(stat) {
                 $('#login .avatar').css('display','none');
                 $('#login').attr('id_stat','login');
             } else {
-                $('#login p').html(result[0]);
+                $('#login p').html(result["name"]);
                 $('#login i').removeClass('fa-user');
                 $('#login i').addClass('fa-sort-down');
                 $('#login i').css('margin','5px 0px 10px 5px');
                 $('#login').css('flex-direction','row-reverse');
                 $('#login .avatar').css('display','flex');
-                $('#login .avatar').css('background-image','url('+result[1]+')');
+                $('#login .avatar').css('background-image','url('+result["avatar"]+')');
                 $('#login .options').css('display','flex');
                 $('#login').attr('id_stat','none');
             }
