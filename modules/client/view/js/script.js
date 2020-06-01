@@ -233,7 +233,6 @@ $( document ).ready(function() {
         // Css de categoria
         $('.top_category').css("color","black");
         $(this).css("color","#2196F3");
-        
   
         //Mostrar subcategorias
         id_button = this.getAttribute('id_button');

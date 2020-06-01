@@ -9,6 +9,7 @@
     <script src="<?php echo LIBRARIES_PATH ?>bootpag/jquery.bootpag.min.js"></script>
     <script src="<?php echo LIBRARIES_PATH ?>md5/md5.js"></script>
     <link href="<?php echo LIBRARIES_PATH ?>font-awesome/css/all.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo LIBRARIES_PATH ?>firebase/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap" rel="stylesheet"/>
 
     <!-- javascript -->

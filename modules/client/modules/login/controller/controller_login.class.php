@@ -162,4 +162,17 @@
 			$_SESSION["token"] = "";
 			echo "true";
 		}
+
+		function social_login() {
+			$data = array($_POST["id"],$_POST["name"],$_POST["email"],$_POST["avatar"]);
+			$result = loadModel(DAO_LOGIN, "login_dao", "check_social", $data);
+			$result = $result[0];
+
+			if (!$result){
+				loadModel(DAO_LOGIN, "login_dao", "insert_social_user", $data);
+				$token = encode_token_jwt($data[2]);
+			} else
+				$token = encode_token_jwt($result["email"]);
+			echo json_encode($token);
+		}
 	}

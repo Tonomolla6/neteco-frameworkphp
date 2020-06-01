@@ -284,7 +284,7 @@ function change_product_details(id) {
                     $('.page_details').css('display', 'flex');
                     $('.page').css('display', 'none');
                     localStorage.removeItem('product');
-                    capture_back("index.php?page=products");
+                    capture_back(amigable("?module=products"));
                     $("html").animate({ scrollTop: 0 }, "fast");
                     resolve(result);
             });

@@ -80,4 +80,15 @@ class login_dao {
         $sql = "UPDATE login SET token = '' WHERE token = '". $data ."'";
         return $db->ejecutar($sql);
     }
+
+    public function check_social($db,$data) {
+        $sql = "SELECT email FROM login WHERE social_id = '".$data[0]."'";
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+
+    public function insert_social_user($db,$data) {
+        $sql = "INSERT INTO login (social_id, name, email, avatar) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."')";
+        return $db->ejecutar($sql);
+    }   
 }

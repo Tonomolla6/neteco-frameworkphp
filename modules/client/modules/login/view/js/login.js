@@ -14,6 +14,7 @@ $(document).ready(function() {
         validate_restart_js();
     });
     validate_login_js();
+    social_login();
 });
 
 function validate_login_js() {
@@ -106,11 +107,79 @@ function validate_restart_php(email) {
 		success: function(result) {
             if (result == "true"){
                 $('#succes_email_2').html("Ha recibido un correo para cambiar la contraseña.");
-                setTimeout(function(){ 
+                setTimeout(function(){
                     window.location.href = amigable("?module=login");
                 }, 2000);
             } else
                 $('#error_email_2').html("El email no existe.");
+        }
+    });
+}
+
+function social_login() {
+    var config = {
+        apiKey: "AIzaSyAQ5vqQ_wXhvgWdkiny559lmnIxrZh2c0o",
+        authDomain: "social-login-fphp.firebaseapp.com",
+        databaseURL: "https://social-login-fphp.firebaseio.com",
+        projectId: "social-login-fphp",
+        storageBucket: "",
+        messagingSenderId: "1003021970861"
+    };
+
+    firebase.initializeApp(config);
+    
+    $('.google').on("click",function() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('email');
+
+        var authService = firebase.auth();
+
+        authService.signInWithPopup(provider)
+            .then(function(result) {
+                social_login_send(result);
+            })
+            .catch(function(error) {
+                console.log('Se ha encontrado un error:', error);
+            });
+    });
+
+    $('.github').on("click",function() {
+        var provider = new firebase.auth.GithubAuthProvider();
+        var authService = firebase.auth();
+
+        authService.signInWithPopup(provider)
+        .then(function(result) {
+            social_login_send(result);
+        }).catch(function(error) {
+            var errorCode = error.code;
+            console.log(errorCode);
+            var errorMessage = error.message;
+            console.log(errorMessage);
+            var email = error.email;
+            console.log(email);
+            var credential = error.credential;
+            console.log(credential);
+        });
+    });
+}
+
+function social_login_send(result) {
+    $.ajax({
+        type: 'POST',
+        url: amigable("?module=login&function=social_login"),
+        data: {
+            id: result.user.uid,
+            name: result.user.displayName,
+            email: result.user.email,
+            avatar: result.user.photoURL
+        },
+        dataType: "json",
+        success: function(result) {
+            localStorage.setItem("token",result);    
+            window.location.href = amigable("?module=home");
+        },
+        error: function(result) {
+            console.log(result);
         }
     });
 }
