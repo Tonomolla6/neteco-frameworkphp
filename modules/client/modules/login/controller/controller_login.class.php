@@ -45,21 +45,21 @@
 		}
 
 		function checking() {
-			if ($_POST['stat'] == 'cart') {
-				$_SESSION["cart"] = true;
-			}
-
 			if ($_POST["token"]) {
 				$json = decode_token_jwt($_POST["token"]);
 				$email = json_decode($json)->name;
 				$result = loadModel(DAO_LOGIN, "login_dao", "login", strtolower($email));
 				$array = array(
+					"stat" => true,
 					"name" => $result[0]["name"],
 					"avatar" => $result[0]["avatar"]
 				);
-				echo json_encode($array);
+				
 			} else
-				echo true;
+				$array = array(
+					"stat" => false
+				);
+			echo json_encode($array);
 		}
 
 		function logout() {

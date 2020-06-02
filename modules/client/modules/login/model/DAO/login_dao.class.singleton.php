@@ -18,13 +18,7 @@ class login_dao {
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
-
-    // public function login($db,$data) {
-    //     $sql = "SELECT name,avatar FROM login WHERE email = '".$data."'";
-    //     $stmt = $db->ejecutar($sql);
-    //     return $db->listar($stmt);
-    // }
-
+    
     public function slider_img_change($db,$data) {
         $sql = "SELECT * FROM background_img WHERE id = ".$data[0];
         $stmt = $db->ejecutar($sql);
@@ -88,7 +82,7 @@ class login_dao {
     }
 
     public function insert_social_user($db,$data) {
-        $sql = "INSERT INTO login (social_id, name, email, avatar) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."')";
+        $sql = "INSERT INTO login (social_id, name, email, avatar, salary) VALUES ('".$data[0]."','".$data[1]."','".$data[2]."','".$data[3]."',1000)";
         return $db->ejecutar($sql);
     }   
 }

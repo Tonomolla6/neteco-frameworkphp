@@ -37,6 +37,9 @@
     //MODULES
     define('MODULES_PATH', SITE_ROOT . 'modules/');
     
+    // Module
+    define('MODULE', 'modules/'.$_SESSION["type"].'/');
+
     //VIEW
     define('VIEW_PATH_INC', SITE_ROOT . 'view/inc/');
     
@@ -52,7 +55,6 @@
     //MODULES
     $modules = simplexml_load_file(RESOURCES.'modules.xml');
     $define_name = array('MODEL_PATH_','DAO_','BLL_','MODEL_','JS_VIEW_');
-    $define_path = array('model/','DAO/','BLL/','model/','view/js/');
     $define_path = array('model/','model/DAO/','model/BLL/','model/model/','view/js/');
 
     foreach ($modules->module as $module) {

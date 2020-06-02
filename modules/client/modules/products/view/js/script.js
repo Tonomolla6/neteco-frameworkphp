@@ -292,7 +292,7 @@ function change_product_details(id) {
     }
 
     details_promise().then(function(data){
-        localStorage.setItem('product_cart',data[0][0]);
+        localStorage.setItem('product_cart',data[0]["id"]);
         clicks_cart();
     });
 

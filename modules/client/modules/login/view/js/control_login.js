@@ -20,7 +20,7 @@ function login(stat) {
                     resolve(data);
                  })
                  .fail(function(textStatus) {
-                    console.log(textStatus);
+                    resolve("error");
             });
         });
     }
@@ -28,16 +28,17 @@ function login(stat) {
     if (stat == 'session') {
         login_promise()
         .then(function(result) {
-            // cart_reload();
-            if (result == false) {
+            cart_reload();
+            if (result == "error") {
                 window.location.href = amigable("?module=login&function=view_checking");
-            } else if (result == true) {
+            } else if (!result["stat"]) {
                 $('#login i').removeClass('fa-sort-down');
                 $('#login i').addClass('fa-user');
                 $('#login p').html("Iniciar sesión");
                 $('#login .options').css('display','none');
                 $('#login .avatar').css('display','none');
                 $('#login').attr('id_stat','login');
+                return false;
             } else {
                 $('#login p').html(result["name"]);
                 $('#login i').removeClass('fa-user');
@@ -48,15 +49,15 @@ function login(stat) {
                 $('#login .avatar').css('background-image','url('+result["avatar"]+')');
                 $('#login .options').css('display','flex');
                 $('#login').attr('id_stat','none');
+                return true;
             }
         });
     } else {
         login_promise()
         .then(function(result) {
-            total = result;
+            return result["stat"];
         });
     }
-    return total;
 }
 
 function activity() {

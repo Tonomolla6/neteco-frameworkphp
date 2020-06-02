@@ -17,6 +17,7 @@
         ini_set('display_errors', '0');
         ini_set('error_reporting', '0'); // error_reporting(0);
     }
-    
+
+    include MODULE."modules/cart/model/DAO/cart_dao.class.singleton.php";
     require MODULE."router/router.php";
 ?>
